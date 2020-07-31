@@ -76,7 +76,7 @@ public class SegundaPantalla extends AppCompatActivity {
             updateUI(null);
         }
         EditText pas = (EditText)findViewById(R.id.documento);
-        pas.setText("https://www.dropbox.com/s/uiqhemeo7ly8igo/getFile.json?dl=0");
+        pas.setText("https://dl.dropboxusercontent.com/s/uiqhemeo7ly8igo/getFile.json?dl=0");
 
         //--------------------del volley inicio------------------------------------------------------
 
@@ -282,7 +282,7 @@ void bajardeFireBase(String link) throws IOException {
 
 
 
-    Log.d(TAG, "carpeta: " +Environment.getExternalStorageDirectory() + File.separator+ "com.razielalcaraz.examenandroidnetasystems"  + File.separator+"/employees_data.json"
+    Log.d(TAG, "carpeta: " +Environment.getExternalStorageDirectory() + File.separator+ "com.razielalcaraz.examenandroidnetasystems"  + File.separator+"employees_data.json"
     );
 
         //abrir el archivo json------------------------------------------------------------------
@@ -377,37 +377,8 @@ File newExport = new File(String.valueOf(getApplicationContext().getFilesDir()+ 
 
     }
     private String readFromFile(Context context,String file) {
-
-           String ret = "";
-
-        try {
-
-         File file2= new File(Environment.getExternalStorageDirectory() +
-                 File.separator+ "com.razielalcaraz.examenandroidnetasystems"  + File.separator +"employees_data.json");
-            InputStream inputStream = context.openFileInput(Environment.getExternalStorageDirectory() +
-                    File.separator+ "com.razielalcaraz.examenandroidnetasystems"  + File.separator +"employees_data.json");
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append("\n").append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
-
-        return ret;
+Log.d(TAG,"OK");
+return "ok";
     }
     private static File exportFile(File src, File dst) throws IOException {
 /* call this func:
