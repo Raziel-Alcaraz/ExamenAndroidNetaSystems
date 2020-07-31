@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +44,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -286,28 +288,40 @@ void bajardeFireBase(String link) throws IOException {
     );
 
         //abrir el archivo json------------------------------------------------------------------
-        Log.d("string desde funcion",readFromFile(getApplicationContext(), Environment.getExternalStorageDirectory() + File.separator+ "com.razielalcaraz.examenandroidnetasystems"  + File.separator+"employees_data.json"
-        ));
+        Log.d("string desde funcion",readFromFile( "employees_data.json"));
         Gson gson = new Gson();
-        String obyeto = gson.toJson(readFromFile(getApplicationContext(),
-                Environment.getExternalStorageDirectory() + File.separator+ "com.razielalcaraz.examenandroidnetasystems"  + File.separator +"employees_data.json"
-        ));
+            JSONObject obyeto = null;
+            try {
+                obyeto = new JSONObject(readFromFile( "employees_data.json"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        Log.d("disque json",obyeto);
-
-       // JSONArray obj = gson.fromJson(obyeto,Employee.class);
-        //Log.d(TAG,obj);
-
+            JSONObject   obyeto2 = obyeto;
+            Log.d("disque json", String.valueOf(obyeto));
+            Log.d("disque json2", String.valueOf(obyeto2));
         //abrir el archivo json------------------------------------------------------------------
 
-       // Log.d(TAG, "parseado ok3!! " +obyeto2);
-
-     //   JSONObject archivojsonparseado = new JSONObject(archivojsonparseado0);
-    //    JSONObject data =   archivojsonparseado.getJSONObject("data");
-    //    JSONArray employees = data.getJSONArray("employees");
-    //    for(int j = 0; j<employees.length();j++){
-    //       Log.d(TAG, "---Empleado: " +employees.getJSONObject(j).toString());
-    //    }
+            JSONObject data = null;
+            try {
+                data = obyeto.getJSONObject("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JSONArray employees = null;
+            try {
+                employees = data.getJSONArray("employees");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+                for(int j = 0; j<employees.length();j++){
+                    try {
+                        Log.d(TAG, "---Empleado: " +employees.getJSONObject(j).toString());
+                        updatearempleado(employees.getJSONObject(j));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
 
 
@@ -327,7 +341,10 @@ void bajardeFireBase(String link) throws IOException {
     }
 
 
-
+public Boolean updatearempleado(JSONObject empleado){
+        if()
+        return true;
+}
     public void unzip(File zipFile, File targetDirectory) throws IOException {
  //       File export = new File(String.valueOf(getApplicationContext().getFilesDir()+"/employees_data.json"));
         ZipInputStream zis = new ZipInputStream(
@@ -376,9 +393,35 @@ File newExport = new File(String.valueOf(getApplicationContext().getFilesDir()+ 
         }
 
     }
-    private String readFromFile(Context context,String file) {
-Log.d(TAG,"OK");
-return "ok";
+    private String readFromFile(String arqivo) {
+Log.d(TAG,"OK leyendo de archivo");
+        //Find the directory for the SD Card using the API
+//*Don't* hardcode "/sdcard"
+        File sdcard = new File(Environment.getExternalStorageDirectory() + File.separator + "com.razielalcaraz.examenandroidnetasystems" + File.separator);
+
+//Get the text file
+        File fileX = new File(sdcard,arqivo);
+
+//Read text from file
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileX));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            //You'll need to add proper error handling here
+            Log.e(TAG,"ERROR: "+e);
+        }
+        Log.d(TAG,"texto de archivo: "+ text);
+
+        return text.toString();
     }
     private static File exportFile(File src, File dst) throws IOException {
 /* call this func:
