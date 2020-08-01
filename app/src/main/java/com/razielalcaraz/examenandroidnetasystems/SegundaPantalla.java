@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,6 +60,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import static java.lang.String.*;
+import static java.nio.file.Paths.get;
 
 public class SegundaPantalla extends AppCompatActivity {
     private static final String TAG = "debuging";
@@ -342,7 +345,19 @@ void bajardeFireBase(String link) throws IOException {
 
 
 public Boolean updatearempleado(JSONObject empleado){
-        if()
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    DatabaseReference myRef = database.getReference("messages");
+    myRef.setValue("Hello, World!");
+    String uid = null;
+    try {
+        uid = (String) empleado.get("id");
+        myRef = database.getReference("employees/"+uid);
+        myRef.setValue(empleado);
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
         return true;
 }
     public void unzip(File zipFile, File targetDirectory) throws IOException {
