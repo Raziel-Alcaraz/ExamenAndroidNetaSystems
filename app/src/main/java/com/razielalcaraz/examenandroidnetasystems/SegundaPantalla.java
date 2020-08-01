@@ -20,8 +20,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,6 +53,7 @@ import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.ZipEntry;
@@ -63,10 +64,12 @@ import static java.lang.String.*;
 import static java.nio.file.Paths.get;
 
 public class SegundaPantalla extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.razielalcaraz.examenandroidnetasystems.MainMenu";
     private static final String TAG = "debuging";
     private FirebaseAuth mAuth;
     RequestQueue requestQueue;
     String file;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +105,16 @@ public class SegundaPantalla extends AppCompatActivity {
 
 
         //------------------------------del volley fin-----------------------------------------------
+        //---------------------del firestore inicio-----------------
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
+
+
+        //---------del firestore fin -----------------------------------------
     }
     public void bajarDatos(View v){
         EditText pas = (EditText)findViewById(R.id.documento);
@@ -317,15 +330,18 @@ void bajardeFireBase(String link) throws IOException {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-                for(int j = 0; j<employees.length();j++){
-                    try {
-                        Log.d(TAG, "---Empleado: " +employees.getJSONObject(j).toString());
-                        updatearempleado(employees.getJSONObject(j));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                for(int j = 0; j<=employees.length();j++) {
+                    if (j == employees.length()) {
+                    mandarFaierbeis();
+                    } else {
+                        try {
+                            Log.d(TAG, "---Empleado: " + employees.getJSONObject(j).toString());
+                            updatearempleado(employees.getJSONObject(j));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-
 
 
         }
@@ -344,21 +360,49 @@ void bajardeFireBase(String link) throws IOException {
     }
 
 
-public Boolean updatearempleado(JSONObject empleado){
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-    DatabaseReference myRef = database.getReference("messages");
-    myRef.setValue("Hello, World!");
-    String uid = null;
-    try {
-        uid = (String) empleado.get("id");
-        myRef = database.getReference("employees/"+uid);
-        myRef.setValue(empleado);
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
+public Boolean updatearempleado(JSONObject empleado) throws JSONException {
+        String uid = (String) empleado.get("id");
+        String name = (String) empleado.get("name");
+        JSONObject ubicacion = empleado.getJSONObject("location");
+        String lat = (String)  ubicacion.get("lat");
+    String log = (String)  ubicacion.get("log");
+    Map<String, Object> location =new HashMap<>();
+        location.put("lat", lat);
+    location.put("log", log);
+
+    String mail = (String) empleado.get("mail");
+    Map<String, Object> user = new HashMap<>();
+    user.put("id", uid);
+    user.put("name", name);
+    user.put("location", location);
+    user.put("mail", mail);
+    db.collection("employees").document(uid)
+            .set(user)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error writing document", e);
+                }
+            });
+
 
         return true;
+}
+public void mandarFaierbeis(){
+//implementar para transacci'on por lotes
+
+    //mandar a activity del punto 5
+    Intent intent = new Intent(this, MainMenu.class);
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    intent.putExtra(EXTRA_MESSAGE, user);
+    startActivity(intent);
 }
     public void unzip(File zipFile, File targetDirectory) throws IOException {
  //       File export = new File(String.valueOf(getApplicationContext().getFilesDir()+"/employees_data.json"));
