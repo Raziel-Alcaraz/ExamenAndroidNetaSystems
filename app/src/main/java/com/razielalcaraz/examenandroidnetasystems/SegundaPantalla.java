@@ -67,6 +67,7 @@ public class SegundaPantalla extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.razielalcaraz.examenandroidnetasystems.MainMenu";
     private static final String TAG = "debuging";
     private FirebaseAuth mAuth;
+    Boolean debugMode = false;
     RequestQueue requestQueue;
     String file;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -115,6 +116,22 @@ public class SegundaPantalla extends AppCompatActivity {
 
 
         //---------del firestore fin -----------------------------------------
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (!debugMode) {
+            findViewById(R.id.fab).setVisibility(View.INVISIBLE);
+            findViewById(R.id.fabout).setVisibility(View.INVISIBLE);
+            findViewById(R.id.documento).setVisibility(View.INVISIBLE);
+            findViewById(R.id.LinkService).setVisibility(View.INVISIBLE);
+
+            bajarDatos(findViewById(R.id.fab));
+
+        }else{
+            findViewById(R.id.cargando).setVisibility(View.INVISIBLE);
+        }
     }
     public void bajarDatos(View v){
         EditText pas = (EditText)findViewById(R.id.documento);
@@ -398,7 +415,7 @@ public void mandarFaierbeis(){
 //implementar para transacci'on por lotes
 
     //mandar a activity del punto 5
-    Intent intent = new Intent(this, MainMenu.class);
+    Intent intent = new Intent(this, SelectScreen.class);
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     intent.putExtra(EXTRA_MESSAGE, user);

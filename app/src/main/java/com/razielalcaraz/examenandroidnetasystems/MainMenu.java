@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.razielalcaraz.examenandroidnetasystems.ui.main.SectionsPagerAdapter;
 
 public class MainMenu extends AppCompatActivity {
@@ -38,4 +40,16 @@ public class MainMenu extends AppCompatActivity {
             }
         });
     }
+
+    public void sendMessage() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String EXTRA_MESSAGE = "com.razielalcaraz.examenandroidnetasystems.MainActivity";
+        intent.putExtra(EXTRA_MESSAGE, user);
+        startActivity(intent);
+
+
+    }
+
 }
