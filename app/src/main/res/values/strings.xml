@@ -111,7 +111,7 @@
 
     <string name="hello_first_fragment">Colaboradores</string>
     <string name="hello_second_fragment">Mapa de colaboradores</string>
-    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_main_menu">Main Menu</string>
     <string name="tab_text_1">Lista</string>
     <string name="tab_text_2">Mapa</string>
 
@@ -119,4 +119,5 @@
     <string name="colaboradores">Mis colaboradores</string>
     <string name="agregar">Agregar colaborador</string>
     <string name="cargando">Cargando...</string>
+    <string name="maps_api_key">AIzaSyCJ5dLfDvMltafoy7vgC0u8wZUIsFsN5Mw</string>
 </resources>
