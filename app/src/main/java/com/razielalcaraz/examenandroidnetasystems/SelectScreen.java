@@ -19,7 +19,7 @@ public class SelectScreen extends AppCompatActivity {
     }
     public void sendMessage() {
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MisColaboradores.class);
       //  FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
        // String EXTRA_MESSAGE = "com.razielalcaraz.examenandroidnetasystems.MainActivity";
       //  intent.putExtra(EXTRA_MESSAGE, user);
@@ -35,7 +35,7 @@ public class SelectScreen extends AppCompatActivity {
         startActivity(intent);
     }
     public void verUsr(View v){
-        Intent intent = new Intent(this, MainMenu.class);
+        Intent intent = new Intent(this, MisColaboradores.class);
       //  FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
      //   String EXTRA_MESSAGE = "com.razielalcaraz.examenandroidnetasystems.MainActivity";
      //   intent.putExtra(EXTRA_MESSAGE, user);
