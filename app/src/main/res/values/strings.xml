@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ExamenAndroidNetaSystems</string>
+    <string name="app_name">Raziel Alcaraz</string>
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
 
@@ -104,8 +104,8 @@
     <string name="multi_factor_signed_out">You are not signed in. To use this sample, first navigate to the Email/Password example to sign in and then return here to enroll in multi-factor auth.</string>
     <string name="title_activity_segunda_pantalla">Segunda Pantalla</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">Primera pantalla</string>
+    <string name="second_fragment_label">Segunda pantalla</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -121,7 +121,7 @@
     <string name="cargando">Cargando...</string>
     <string name="maps_api_key">AIzaSyCJ5dLfDvMltafoy7vgC0u8wZUIsFsN5Mw</string>
     <string name="maps_api_key2">AIzaSyCJ5dLfDvMltafoy7vgC0u8wZUIsFsN5Mw</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Mapa</string>
     <string name="title_activity_mis_colaboradores">Mis Colaboradores</string>
     <string name="verTodos">Ver todos</string>
 

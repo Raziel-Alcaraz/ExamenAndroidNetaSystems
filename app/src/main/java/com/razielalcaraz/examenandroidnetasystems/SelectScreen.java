@@ -41,4 +41,10 @@ public class SelectScreen extends AppCompatActivity {
      //   intent.putExtra(EXTRA_MESSAGE, user);
         startActivity(intent);
     }
+    public void salirLogout(View v){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, MainActivity.class);
+
+        startActivity(intent);
+    }
 }
