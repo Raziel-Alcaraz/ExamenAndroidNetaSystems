@@ -48,5 +48,13 @@
     android:onClick="agregarUserYa"
     android:text="@string/agregarBTN"
     />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabout3"
+            android:onClick="salirLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/exit1" />
 </LinearLayout>
 </LinearLayout>

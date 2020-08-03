@@ -123,4 +123,10 @@ public static int idEste;
         idEste = view.getId();
         startActivity(intent);
     }
+    public void salirLogout(View v){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, MainActivity.class);
+
+        startActivity(intent);
+    }
 }

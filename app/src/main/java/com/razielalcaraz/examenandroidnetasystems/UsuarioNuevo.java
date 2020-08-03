@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
@@ -77,5 +78,11 @@ public class UsuarioNuevo extends AppCompatActivity {
 
          //   return true;
         }
+    }
+    public void salirLogout(View v){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, MainActivity.class);
+
+        startActivity(intent);
     }
 }
